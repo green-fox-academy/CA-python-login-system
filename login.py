@@ -1,10 +1,13 @@
 from getpass import getpass
 import sys
+import hashlib
 
+def hasher(to_hash):
+    return hashlib.md5(to_hash.encode('utf-8')).hexdigest()
 
 def get_usr_pass():
-    return {"username": input("Username: "),
-            "password": getpass("Password: ")}
+    return {"username": hasher(input("Username: ")),
+            "password": hasher(getpass("Password: "))}
 
 
 def login():
@@ -15,7 +18,7 @@ def login():
 
 def account_validation(credential):
     if credential["username"] in get_users():
-        return True
+        return credential["password"] == get_password(credential["username"])
     else:
         print("registrate first")
         registrate()
@@ -76,6 +79,7 @@ def login_engine():
 
 
 try:
+    pass
     login_engine()
 except KeyboardInterrupt:
     print("interrupted")
