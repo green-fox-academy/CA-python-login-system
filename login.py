@@ -2,8 +2,10 @@ from getpass import getpass
 import sys
 import hashlib
 
+
 def hasher(to_hash):
     return hashlib.md5(to_hash.encode('utf-8')).hexdigest()
+
 
 def get_usr_pass():
     return {"username": hasher(input("Username: ")),
@@ -15,6 +17,7 @@ def login():
         print("success")
     else:
         print("bad credentials")
+
 
 def account_validation(credential):
     if credential["username"] in get_users():
@@ -79,9 +82,8 @@ def login_engine():
 
 
 try:
-    pass
     login_engine()
 except KeyboardInterrupt:
     print("interrupted")
 except:
-    raise    
+    print("oops")
