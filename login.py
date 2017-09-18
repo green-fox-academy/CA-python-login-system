@@ -1,4 +1,5 @@
 from getpass import getpass
+import sys
 
 
 def get_usr_pass():
@@ -12,25 +13,28 @@ def login():
     else:
         print("bad credentials")
 
-
 def account_validation(credential):
-    if credential["username"] is in get_users():
-        pass
+    if credential["username"] in get_users():
+        return True
     else:
         print("registrate first")
-        # registrate()
+        registrate()
 
 
 def get_users():
     users = []
     for credential in get_credentials():
-        users.append(credential["username"])
+        users.append(get_username_from_credential(credential))
     return users
 
 
 def get_credentials():
-    with open("database", "r") as db:
-        return db.read().split("\n")
+    try:
+        with open("database", "r") as db:
+            return db.read().split("\n")
+    except FileNotFoundError:
+        print("Database not found")
+        sys.exit(2)
 
 
 def get_password(username):
@@ -70,4 +74,10 @@ def login_engine():
     except KeyError:
         print("bad choice, dumbass")
 
-login_engine()
+
+try:
+    login_engine()
+except KeyboardInterrupt:
+    print("interrupted")
+except:
+    raise    
