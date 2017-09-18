@@ -1,26 +1,51 @@
 from getpass import getpass
 
+
 def get_usr_pass():
-    username = input("Username: ")
-    password = getpass("Password: ")
-    return {"username": username,
-            "password": password}
+    return {"username": input("Username: "),
+            "password": getpass("Password: ")}
 
 
 def login():
-    crededentials = get_usr_pass()
-    if crededentials["password"] == get_password(crededentials["username"]):
+    if account_validation(get_usr_pass()):
         print("success")
     else:
         print("bad credentials")
 
 
-def get_password(username):
+def account_validation(credential):
+    if credential["username"] is in get_users():
+        pass
+    else:
+        print("registrate first")
+        # registrate()
+
+
+def get_users():
+    users = []
+    for credential in get_credentials():
+        users.append(credential["username"])
+    return users
+
+
+def get_credentials():
     with open("database", "r") as db:
-        crededentials = db.read().split("\n")
-    for credential in crededentials:
-        if username == credential.split(":")[0]:
-            return credential.split(":")[1]
+        return db.read().split("\n")
+
+
+def get_password(username):
+    for credential in get_credentials():
+        if username == get_username_from_credential(credential):
+            return get_password_from_credential(credential)
+
+
+def get_password_from_credential(credential):
+    return credential.split(":")[1]
+
+
+def get_username_from_credential(credential):
+    return credential.split(":")[0]
+
 
 def registrate():
     user_save(get_usr_pass())
