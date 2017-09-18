@@ -1,6 +1,8 @@
+from getpass import getpass
+
 def get_usr_pass():
     username = input("Username: ")
-    password = input("Password: ")
+    password = getpass("Password: ")
     return {"username": username,
             "password": password}
 
