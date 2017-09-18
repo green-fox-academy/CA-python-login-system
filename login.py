@@ -7,11 +7,21 @@ def get_usr_pass():
 
 def login():
     crededentials = get_usr_pass()
+    if crededentials["password"] == get_password(crededentials["username"]):
+        print("success")
+    else:
+        print("bad credentials")
 
+
+def get_password(username):
+    with open("database", "r") as db:
+        crededentials = db.read().split("\n")
+    for credential in crededentials:
+        if username == credential.split(":")[0]:
+            return credential.split(":")[1]
 
 def registrate():
-    crededentials = get_usr_pass()
-    user_save(crededentials)
+    user_save(get_usr_pass())
 
 
 def user_save(crededentials):
